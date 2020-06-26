@@ -16,7 +16,7 @@ class esports(commands.Cog):
                          'challengerscrimid': None}
 
         self.config.register_guild(**default_guild)
-        
+
     @commands.guild_only()
     @commands.command()
     async def approveteam(self, ctx, team_name, user: discord.Member):
@@ -42,7 +42,6 @@ class esports(commands.Cog):
             team_name = team_name.lower()
 
             author_role = ctx.author.top_role
-
 
             if tryoutmanid is None or tryoutid is None or mainid is None or academyid is None or challengerid is None:
                 await ctx.send("Roles have not been set correctly")
@@ -87,7 +86,7 @@ class esports(commands.Cog):
 
             else:
                 await ctx.send("You don't have enough permissions to execute this command")
-         else:
+        else:
             pass
 
     @commands.guild_only()
@@ -207,6 +206,7 @@ class esports(commands.Cog):
             await ctx.send("You set {} as the tryoutmanager role id".format(role.id))
         else:
             pass
+
     @checks.mod_or_permissions()
     @commands.guild_only()
     @commands.command()
@@ -218,6 +218,7 @@ class esports(commands.Cog):
             await ctx.send("You set {} as the tryout role id".format(role.id))
         else:
             pass
+
     @checks.mod_or_permissions()
     @commands.guild_only()
     @commands.command()
@@ -241,7 +242,3 @@ class esports(commands.Cog):
             await ctx.send("You set {} as the academy scrim role id".format(role.id))
         else:
             pass
-
-
-
-
