@@ -3,7 +3,7 @@ from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 import discord
 import asyncio
 
-credit = "Bot by LeGeND Gaming"
+credit = "Bot by KingSlayer | LeGeND Gaming"
 
 
 class UserEnd(Exception):
