@@ -121,7 +121,7 @@ class Coaching(commands.Cog):
                 await ctx.send("Stopped!")
                 return
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
     @coaching.command()
     @commands.guild_only()
@@ -190,7 +190,7 @@ class Coaching(commands.Cog):
                 await user.send("Stopped!")  # not sure where to send these messages
                 return
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
     @commands.guild_only()
     @coaching.command()
@@ -218,7 +218,7 @@ class Coaching(commands.Cog):
                     await ctx.send("You are not allowed to do that")
                     break
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
     @commands.guild_only()
     @coaching.command()
@@ -246,7 +246,7 @@ class Coaching(commands.Cog):
                     await ctx.send("You are not allowed to do that")
                     break
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
 
     @checks.mod_or_permissions()
@@ -259,7 +259,7 @@ class Coaching(commands.Cog):
             await self.config.guild(ctx.guild).coachid.set(int(id))
             await ctx.send("You set {} as the coach role id".format(role.id))
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
     @checks.mod_or_permissions()
     @coaching.command()
@@ -270,7 +270,7 @@ class Coaching(commands.Cog):
             await self.config.guild(ctx.guild).coachchannel.set(int(channel))
             await ctx.send("You set {} as the coaching channel".format(channel))
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
 
     @commands.guild_only()
@@ -303,7 +303,7 @@ class Coaching(commands.Cog):
                     await ctx.send("You are not allowed to do that")
                     break
         else:
-            await ctx.send("This command only works in the Legend eSports server")
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
 
 
