@@ -202,21 +202,19 @@ class Coaching(commands.Cog):
             description = ""
             coach = await data.coachid()
             coach_role = ctx.guild.get_role(coach)
-            x = ctx.author.roles
-            x.pop(0)
-            for roles in x:
-                if roles.position >= coach_role.position:
-                    for member in lst:
-                        userobj = ctx.guild.get_member(int(member))
-                        description += (str(userobj.mention) + '\n')
-                    embed = discord.Embed(color=0xFFFF00, title='Coaching Needed by following people', description=description)
-                    embed.set_footer(text=credit)
-                    await ctx.send(embed=embed)
-                    await ctx.send('Type "{0}coaching done @<player name>" if the player has been coached or type "{0}coaching info <@playername>" to view the details submitted by the user'.format(ctx.prefix))
-                    break
-                else:
-                    await ctx.send("You are not allowed to do that")
-                    break
+            x = ctx.author.top_role
+            if x >= coach_role:
+                for member in lst:
+                    userobj = ctx.guild.get_member(int(member))
+                    description += (str(userobj.mention) + '\n')
+                embed = discord.Embed(color=0xFFFF00, title='Coaching Needed by following people', description=description)
+                embed.set_footer(text=credit)
+                await ctx.send(embed=embed)
+                await ctx.send('Type "{0}coaching done @<player name>" if the player has been coached or type "{0}coaching info <@playername>" to view the details submitted by the user'.format(ctx.prefix))
+                
+            else:
+                await ctx.send("You are not allowed to do that")
+
         else:
             await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
@@ -229,22 +227,20 @@ class Coaching(commands.Cog):
             lst = await data.get_raw('neededlist')
             coach = await data.coachid()
             coach_role = ctx.guild.get_role(coach)
-            x = ctx.author.roles
-            x.pop(0)
-            for roles in x:
-                if roles.position >= coach_role.position:
-                    if member.id in lst:
-                        lst.remove(member.id)
-                        await self.config.guild(ctx.guild).neededlist.set(lst)
-                        await self.config.member(member).clear()
-                        await ctx.send("Removed member from pending list")
-                        break
-                    else:
-                        await ctx.send("Member not in the pending list")
-                        break
+            x = ctx.author.top_role
+            if x >= coach_role:
+                if member.id in lst:
+                    lst.remove(member.id)
+                    await self.config.guild(ctx.guild).neededlist.set(lst)
+                    await self.config.member(member).clear()
+                    await ctx.send("Removed member from pending list")
+
                 else:
-                    await ctx.send("You are not allowed to do that")
-                    break
+                    await ctx.send("Member not in the pending list")
+
+            else:
+                await ctx.send("You are not allowed to do that")
+
         else:
             await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
@@ -282,26 +278,21 @@ class Coaching(commands.Cog):
             lst = await data.get_raw('neededlist')
             coach = await data.coachid()
             coach_role = ctx.guild.get_role(coach)
-            x = ctx.author.roles
-            x.pop(0)
-            for roles in x:
-                if roles.position >= coach_role.position:
-                    if member.id in lst:
-                        player_data = self.config.member(member)
-                        ign_use = await player_data.get_raw('ign')
-                        tag_use = await player_data.get_raw('tag')
-                        time_use = await player_data.get_raw('time')
-                        deck_use = await player_data.get_raw('deck_type')
-                        await self.emb(ctx, "Discord Name", "In Game Name", "Player Tag", "Preferred Time", "Deck Type",
-                                       member.mention, ign_use, tag_use, time_use, deck_use)
-                        break
+            x = ctx.author.top_role
+            if x >= coach_role:
+                if member.id in lst:
+                    player_data = self.config.member(member)
+                    ign_use = await player_data.get_raw('ign')
+                    tag_use = await player_data.get_raw('tag')
+                    time_use = await player_data.get_raw('time')
+                    deck_use = await player_data.get_raw('deck_type')
+                    await self.emb(ctx, "Discord Name", "In Game Name", "Player Tag", "Preferred Time", "Deck Type",member.mention, ign_use, tag_use, time_use, deck_use)
 
-                    else:
-                        await ctx.send("The member has not registered for coaching")
-                        break
                 else:
-                    await ctx.send("You are not allowed to do that")
-                    break
+                    await ctx.send("The member has not registered for coaching")
+
+            else:
+                await ctx.send("You are not allowed to do that")
         else:
             await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
