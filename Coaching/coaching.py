@@ -87,7 +87,7 @@ class Coaching(commands.Cog):
                 return n.author == user and n.channel == ctx.channel
             try:
 
-                await ctx.send("{} Which Archetype's tips do you need?(Cycle, Beatdown, Control, Siege), type any ".format(ctx.author.mention))
+                await ctx.send("{} Which Archetype's tips do you need?(Cycle, Beatdown, Control, Siege), type anything else to stop ".format(ctx.author.mention))
                 archatype = await self.bot.wait_for('message', timeout=60, check=check)
                 final_archatype = archatype.content.lower()
 
