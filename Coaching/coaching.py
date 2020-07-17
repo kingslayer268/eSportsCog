@@ -271,7 +271,7 @@ class Coaching(commands.Cog):
 
     @commands.guild_only()
     @coaching.command()
-    async def status(self, ctx, member: discord.Member):
+    async def info(self, ctx, member: discord.Member):
         """Shows information regarding a particular player"""
         if ctx.guild.id == 445092370006933505:
             data = self.config.guild(ctx.guild)
