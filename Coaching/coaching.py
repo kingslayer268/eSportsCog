@@ -82,8 +82,11 @@ class Coaching(commands.Cog):
     @commands.group()
     @commands.guild_only()
     async def coaching(self, ctx):
-        """We Got you covered for your coaching needs"""
-        pass
+        if ctx.guild.id == 445092370006933505:
+            """We Got you covered for your coaching needs"""
+            pass
+        else:
+            await ctx.send("This command only works in the Legend eSports server, join us at: https://discord.gg/GGuCXDn")
 
     @coaching.command()
     @commands.guild_only()
@@ -92,7 +95,6 @@ class Coaching(commands.Cog):
         if ctx.guild.id == 445092370006933505:
             user = ctx.author
             data = self.config
-
             def check(n):
                 return n.author == user and n.channel == ctx.channel
             try:
