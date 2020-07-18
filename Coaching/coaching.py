@@ -68,6 +68,16 @@ class Coaching(commands.Cog):
         channel_id = await self.config.guild(ctx.guild).coachchannel()
         channel = ctx.guild.get_channel(int(channel_id))
         await channel.send(embed=embed)
+    
+    async def emb2(self, ctx, title_1, title_2, title_3, title_4, title_5, value_1, value_2, value_3, value_4, value_5):
+        embed = discord.Embed(color=0xFFFF00, title='Coaching Needed', description="This player needs coaching coaches please contact ASAP")
+        embed.add_field(name=title_1, value=value_1)
+        embed.add_field(name=title_2, value=value_2)
+        embed.add_field(name=title_3, value=value_3)
+        embed.add_field(name=title_4, value=value_4)
+        embed.add_field(name=title_5, value=value_5)
+        embed.set_footer(text=credit)
+        await ctx.send(embed=embed)
 
     @commands.group()
     @commands.guild_only()
@@ -286,7 +296,7 @@ class Coaching(commands.Cog):
                     tag_use = await player_data.get_raw('tag')
                     time_use = await player_data.get_raw('time')
                     deck_use = await player_data.get_raw('deck_type')
-                    await self.emb(ctx, "Discord Name", "In Game Name", "Player Tag", "Preferred Time", "Deck Type",member.mention, ign_use, tag_use, time_use, deck_use)
+                    await self.emb2(ctx, "Discord Name", "In Game Name", "Player Tag", "Preferred Time", "Deck Type",member.mention, ign_use, tag_use, time_use, deck_use)
 
                 else:
                     await ctx.send("The member has not registered for coaching")
