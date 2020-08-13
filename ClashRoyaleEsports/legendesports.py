@@ -9,7 +9,7 @@ class LegendEsports(commands.Cog):
         self.bot = bot 
         self.tags = self.bot.get_cog('ClashRoyaleTools').tags
         self.constants = self.bot.get_cog("ClashRoyaleTools").constants # will I even use it?
-        self.config = Config.get_conf(identifier=324546534)
+        self.config = Config.get_conf(self, identifier=324546534)
         default_member = {"command_used": False}
         self.config.register_member(**default_member)
         
