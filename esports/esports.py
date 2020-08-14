@@ -1,11 +1,12 @@
 from redbot.core import Config, commands, checks
 import discord
-
+import clashroyale
 
 class esports(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.tags = self.bot.get_cog('ClashRoyaleTools').tags
         self.config = Config.get_conf(self, identifier=53565445636546)
         default_guild = {'academy': None,
                          'challenger': None,
@@ -17,12 +18,32 @@ class esports(commands.Cog):
 
         self.config.register_guild(**default_guild)
 
+    async def crtoken(self):
+        # Clash Royale API
+        token = await self.bot.get_shared_api_tokens("clashroyale")
+        if token['token'] is None:
+            print("CR Token is not SET. Use !set api clashroyale token,YOUR_TOKEN to set it")
+        self.cr = clashroyale.official_api.Client(token=token['token'],
+                                                  is_async=True,
+                                                  url="https://proxy.royaleapi.dev/v1")
+
     @commands.guild_only()
     @commands.command()
     async def approveteam(self, ctx, team_name, user: discord.Member):
         """Approves a user for a team role"""
         if ctx.guild.id == 445092370006933505:
             data = self.config.guild(ctx.guild)
+
+            player_tag = self.tags.getTag(userID = user.id)
+            if player_tag is None:
+                return await ctx.send("No tag saved, use the command `!save <your tage here>`")
+
+            try:
+                player_data = await self.cr.get_player(player_tag)
+            except clashroyale.RequestError:
+                return await ctx.send("Can't reach the supercell servers at the moment")
+
+            ign = player_data.name
 
             academyid = await data.academy()
             academyrole = ctx.guild.get_role(academyid)
@@ -43,6 +64,7 @@ class esports(commands.Cog):
 
             author_role = ctx.author.top_role
 
+
             if tryoutmanid is None or tryoutid is None or mainid is None or academyid is None or challengerid is None:
                 await ctx.send("Roles have not been set correctly")
 
@@ -51,13 +73,28 @@ class esports(commands.Cog):
                     await user.add_roles(academyrole)
                     await user.remove_roles(tryoutrole)
                     await ctx.send("Academy roles added and tryout roles removed")
+                    try:
+                        final_name = "Academy | " + ign
+                        await user.edit(nick=final_name)
+                    except discord.HTTPException:
+                        return await ctx.send("Not enough permissions but roles have been added")
                 elif team_name == "challenger" and challengerid is not None:
                     await user.add_roles(challengerrole)
                     await user.remove_roles(tryoutrole)
+                    try:
+                        final_name = "Challenger | " + ign
+                        await user.edit(nick=final_name)
+                    except discord.HTTPException:
+                        return await ctx.send("Not enough permissions but roles have been added")
                     await ctx.send("Challenger roles added and tryout roles removed")
-                elif team_name == "main" and mainid is not None:
+                elif (team_name == "main" or team_name == "mainteam") and mainid is not None:
                     await user.add_roles(mainrole)
                     await user.remove_roles(tryoutrole)
+                    try:
+                        final_name = "Main Team | " + ign
+                        await user.edit(nick=final_name)
+                    except discord.HTTPException:
+                        return await ctx.send("Not enough permissions to edit user name, but roles have been added")
                     await ctx.send("Main team role added and tryout roles removed")
                 else:
                     await ctx.send("Incorrect team name please choose a team name from Academy, Challenger, Main")
@@ -106,7 +143,7 @@ class esports(commands.Cog):
                     userid = user.strip('<@!>')
                     new_user = ctx.guild.get_member(user_id=int(userid))
                     await new_user.add_roles(challengerscrimrole)
-                await ctx.send("Roles have been added")
+                    await ctx.send("Roles have been added")
             else:
                 await ctx.send("You don't have enough permissions to execute this command")
         else:
