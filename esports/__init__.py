@@ -1,7 +1,7 @@
 from .esports import esports
 
 
-def setup(bot):
+async def setup(bot):
     cog = esports(bot)
     await cog.crtoken()
     bot.add_cog(cog)
