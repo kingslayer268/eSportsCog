@@ -12,12 +12,11 @@ class esports(commands.Cog):
                          'challenger': None,
                          'mainteam': None,
                          'tryoutmanager': None,
-                         'tryout': None,
                          'academyscrimid': None,
                          'challengerscrimid': None}
 
         self.config.register_guild(**default_guild)
-
+        self.abc = bot.get_cog("LegendEsports")
     async def crtoken(self):
         # Clash Royale API
         token = await self.bot.get_shared_api_tokens("clashroyale")
@@ -31,7 +30,13 @@ class esports(commands.Cog):
     @commands.command()
     async def approveteam(self, ctx, team_name, user: discord.Member):
         """Approves a user for a team role"""
-        if ctx.guild.id == 445092370006933505:
+        if ctx.guild.id == 445092370006933505 or ctx.guild.id == 691577465797345300:
+
+            LMT = self.bot.get_guild(740567594381213727)
+
+            if user in LMT.members:
+                await LMT.kick(user)
+
             data = self.config.guild(ctx.guild)
 
             player_tag = self.tags.getTag(userID = user.id)
@@ -57,21 +62,24 @@ class esports(commands.Cog):
             tryoutmanid = await data.tryoutmanager()
             tryoutmanrole = ctx.guild.get_role(tryoutmanid)
 
-            tryoutid = await data.tryout()
-            tryoutrole = ctx.guild.get_role(tryoutid)
+            academytryoutid = await self.abc.config.guild(ctx.guild).Academyt()
+            academytryoutrole = ctx.guild.get_role(academytryoutid)
+
+            challengertryoutid = await self.abc.config.guild(ctx.guild).Challengert()
+            challengertryoutrole = ctx.guild.get_role(challengertryoutid)
 
             team_name = team_name.lower()
 
             author_role = ctx.author.top_role
 
 
-            if tryoutmanid is None or tryoutid is None or mainid is None or academyid is None or challengerid is None:
+            if tryoutmanid is None or academytryoutid is None or mainid is None or academyid is None or challengerid is None:
                 await ctx.send("Roles have not been set correctly")
 
             elif author_role >= tryoutmanrole:
                 if team_name == "academy" and academyid is not None:
                     await user.add_roles(academyrole)
-                    await user.remove_roles(tryoutrole)
+                    await user.remove_roles(academytryoutrole)
                     await ctx.send("Academy roles added and tryout roles removed")
                     try:
                         final_name = "Academy | " + ign
@@ -80,7 +88,7 @@ class esports(commands.Cog):
                         return await ctx.send("Not enough permissions but roles have been added")
                 elif team_name == "challenger" and challengerid is not None:
                     await user.add_roles(challengerrole)
-                    await user.remove_roles(tryoutrole)
+                    await user.remove_roles(challengertryoutrole)
                     try:
                         final_name = "Challenger | " + ign
                         await user.edit(nick=final_name)
@@ -89,7 +97,6 @@ class esports(commands.Cog):
                     await ctx.send("Challenger roles added and tryout roles removed")
                 elif (team_name == "main" or team_name == "mainteam") and mainid is not None:
                     await user.add_roles(mainrole)
-                    await user.remove_roles(tryoutrole)
                     try:
                         final_name = "Main Team | " + ign
                         await user.edit(nick=final_name)
@@ -241,18 +248,6 @@ class esports(commands.Cog):
             id = role.id
             await self.config.guild(ctx.guild).tryoutmanager.set(int(id))
             await ctx.send("You set {} as the tryoutmanager role id".format(role.id))
-        else:
-            pass
-
-    @checks.mod_or_permissions()
-    @commands.guild_only()
-    @commands.command()
-    async def settryoutrole(self, ctx, role: discord.Role):
-        """Sets the required roles role"""
-        if ctx.guild.id == 445092370006933505:
-            id = role.id
-            await self.config.guild(ctx.guild).tryout.set(int(id))
-            await ctx.send("You set {} as the tryout role id".format(role.id))
         else:
             pass
 
