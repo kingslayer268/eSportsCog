@@ -150,7 +150,7 @@ class esports(commands.Cog):
                     userid = user.strip('<@!>')
                     new_user = ctx.guild.get_member(user_id=int(userid))
                     await new_user.add_roles(challengerscrimrole)
-                    await ctx.send("Roles have been added")
+                await ctx.send("Roles have been added")
             else:
                 await ctx.send("You don't have enough permissions to execute this command")
         else:
