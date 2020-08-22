@@ -187,7 +187,7 @@ class esports(commands.Cog):
     async def challengerscrim(self, ctx):
         if ctx.guild.id == 445092370006933505:
 
-            cscrimid = await self.config.guild(ctx.guild).academyscrimid()
+            cscrimid = await self.config.guild(ctx.guild).challengerscrimid()
             challengerscrimrole = ctx.guild.get_role(cscrimid)
 
             tryoutmanid = await self.config.guild(ctx.guild).tryoutmanager()
