@@ -94,7 +94,7 @@ class esports(commands.Cog):
                         await user.edit(nick=final_name)
                     except discord.HTTPException:
                         return await ctx.send("Not enough permissions but roles have been added")
-                    await ctx.send("Challenger roles added and tryout roles removed")
+                    await ctx.send("Main team roles added and tryout roles removed")
                 elif (team_name == "pro" or team_name == "proteam") and mainid is not None: # MAIN TEAM REFERS TO PRO HERE
                     await user.add_roles(mainrole)
                     try:
@@ -102,9 +102,9 @@ class esports(commands.Cog):
                         await user.edit(nick=final_name)
                     except discord.HTTPException:
                         return await ctx.send("Not enough permissions to edit user name, but roles have been added")
-                    await ctx.send("Main team role added and tryout roles removed")
+                    await ctx.send("Pro team role added and tryout roles removed")
                 else:
-                    await ctx.send("Incorrect team name please choose a team name from Academy, Challenger, Main")
+                    await ctx.send("Incorrect team name please choose a team name from Academy, Main, Pro")
             else:
                 await ctx.send("You do not have permissions to do that")
         else:
