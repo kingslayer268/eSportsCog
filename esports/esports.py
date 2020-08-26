@@ -86,19 +86,19 @@ class esports(commands.Cog):
                         await user.edit(nick=final_name)
                     except discord.HTTPException:
                         return await ctx.send("Not enough permissions but roles have been added")
-                elif team_name == "challenger" and challengerid is not None:
+                elif team_name == "main" or team_name == "main team" and challengerid is not None: # CHALLENGER REFERS TO MAIN 
                     await user.add_roles(challengerrole)
                     await user.remove_roles(challengertryoutrole)
                     try:
-                        final_name = "Challenger | " + ign
+                        final_name = "Main Team | " + ign
                         await user.edit(nick=final_name)
                     except discord.HTTPException:
                         return await ctx.send("Not enough permissions but roles have been added")
                     await ctx.send("Challenger roles added and tryout roles removed")
-                elif (team_name == "main" or team_name == "mainteam") and mainid is not None:
+                elif (team_name == "pro" or team_name == "proteam") and mainid is not None: # MAIN TEAM REFERS TO PRO HERE
                     await user.add_roles(mainrole)
                     try:
-                        final_name = "Main Team | " + ign
+                        final_name = "Pro | " + ign
                         await user.edit(nick=final_name)
                     except discord.HTTPException:
                         return await ctx.send("Not enough permissions to edit user name, but roles have been added")
@@ -135,7 +135,7 @@ class esports(commands.Cog):
 
     @commands.guild_only()
     @commands.command()
-    async def challengerscrimrole(self, ctx, *, users: str):
+    async def mainscrimrole(self, ctx, *, users: str):
         if ctx.guild.id == 445092370006933505:
 
             cscrimid = await self.config.guild(ctx.guild).challengerscrimid()
@@ -184,7 +184,7 @@ class esports(commands.Cog):
 
     @commands.guild_only()
     @reset.command()
-    async def challengerscrim(self, ctx):
+    async def mainscrim(self, ctx):
         if ctx.guild.id == 445092370006933505:
 
             cscrimid = await self.config.guild(ctx.guild).challengerscrimid()
@@ -218,7 +218,7 @@ class esports(commands.Cog):
     @checks.mod_or_permissions()
     @commands.guild_only()
     @commands.command()
-    async def setchallengerrole(self, ctx, role: discord.Role):
+    async def setmainteamrole(self, ctx, role: discord.Role):
         """Sets the required roles role"""
         if ctx.guild.id == 445092370006933505:
             id = role.id
@@ -254,7 +254,7 @@ class esports(commands.Cog):
     @checks.mod_or_permissions()
     @commands.guild_only()
     @commands.command()
-    async def setchallengerscrimrole(self, ctx, role: discord.Role):
+    async def setmainscrimrole(self, ctx, role: discord.Role):
         """Sets the required roles role"""
         if ctx.guild.id == 445092370006933505:
             id = role.id
